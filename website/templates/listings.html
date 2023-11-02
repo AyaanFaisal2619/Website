@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>In-Game Trading Marketplace</title>
+    <style>
+        /* Reset some default browser styles */
+        body, h1, h2, h3, ul, li, p {
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Add custom styles for your website */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px 0;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .nav-list {
+            list-style-type: none;
+        }
+
+        .nav-item {
+            display: inline;
+            margin-right: 20px;
+        }
+
+        .nav-item a {
+            text-decoration: none;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .main {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .listings-section {
+            background-color: #f0f0f0;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .listings-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .listings-section li {
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        .footer-text {
+            font-size: 14px;
+        }
+
+        /* Add styles for the logout button */
+        .logout-button {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .logout-button button {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .logout-button button:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">In-Game Trading Marketplace</h1>
+            <nav class="nav">
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="#">Home</a></li>
+                    <li class="nav-item"><a href="#">Games</a></li>
+                    <li class="nav-item"><a href="#">About</a></li>
+                    <li class="nav-item"><a href="#">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section id="listing-form" class="form-section">
+            <h2 class="section-title">Create a New Listing</h2>
+            <form method="POST" action="/add_listing">
+
+
+                <label for="game">Game:</label>
+                <input type="text" id="game" name="game" required>
+            
+                <label for="item_name">Item Name:</label>
+                <input type="text" id="item_name" name="item_name" required>
+            
+                <label for="price">Price (USD):</label>
+                <input type="number" id="price" name="price" step="0.01" required>
+            
+                <button type="submit" id="create-listing">Create Listing</button>
+            </form>
+        </section>
+
+        <section id="listings" class="listings-section">
+            <h2 class="section-title">Available Listings</h2>
+            
+            <!-- Logout button -->
+            <div class="logout-button">
+                <form method="GET" action="/logout">
+                    <button type="submit">Logout</button>
+                </form>
+            </div>
+
+            <ul>
+                <!-- Placeholder for listings rendered by Flask -->
+            </ul>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p class="footer-text">&copy; 2023 In-Game Trading Marketplace</p>
+        </div>
+    </footer>
+
+    <script>
+       
+       // JavaScript code for form submission using jQuery and AJAX
+$(document).ready(function () {
+    $('#create-listing').click(function (e) {
+        e.preventDefault();
+
+        // Get form data
+        const game = $('#game').val();
+        const item_name = $('#item_name').val();
+        const price = $('#price').val();
+
+        // Create a data object to send to the server
+        const formData = {
+            game: game,
+            item_name: item_name,
+            price: price
+        };
+
+        // Send an AJAX POST request to the server
+        $.ajax({
+            type: 'POST',
+            url: '/add_listing',
+            data: formData,
+            success: function (response) {
+                // Handle success
+                console.log('Listing added successfully:', response);
+                // You can update the UI here if needed
+            },
+            error: function (error) {
+                // Handle error
+                console.error('Error adding listing:', error);
+            }
+        });
+    });
+});
+
+    </script>
+    
+    
+</body>
+</html>
